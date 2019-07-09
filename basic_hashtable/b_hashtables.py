@@ -15,7 +15,8 @@ class Pair:
 # '''
 class BasicHashTable:
     def __init__(self, capacity):
-        pass
+        self.capacity = capacity
+        self.storage = [None] * capacity
 
 
 # '''
@@ -23,7 +24,10 @@ class BasicHashTable:
 # Research and implement the djb2 hash function
 # '''
 def hash(string, max):
-    pass
+    hash = 5381
+    for x in string:
+        hash = ((( hash << 5) + hash) + ord(x)) & 0xFFFFFFFF
+    return hash
 
 
 # '''
@@ -32,7 +36,16 @@ def hash(string, max):
 # If you are overwriting a value with a different key, print a warning.
 # '''
 def hash_table_insert(hash_table, key, value):
-    pass
+    key_hash = hash(key)
+    new_pair = Pair(key, value)
+    index = key_hash % hash_table.capacity
+    if hash_table.storage[index] != None:
+        if key == hash_table.storage[index].key:
+            print(f"Collision detected for {key} and {hash_table.storage[index].key}")
+        else:
+            hash_table.storage[index].value = value
+    else:
+        hash_table.storage[index] = new_pair
 
 
 # '''
